@@ -8,6 +8,9 @@ namespace GasMon
         static void Main()
         {
             Console.WriteLine("Hello World");
+            ILocationsFetcher locationFetcher = new LocationsFetcher();
+            var locationList = locationFetcher.LocationListMaker();
+            Console.WriteLine(locationList[0].x);
         }
         
     }

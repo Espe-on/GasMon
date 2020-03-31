@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 
 namespace GasMon
 {
-    interface ILocationFetcher
+    interface ILocationsFetcher
     {
-        List<Location> LocationFetcher();
+        List<Location> LocationListMaker();
     }
 
-    public class LocationsFetcher : ILocationFetcher
+    public class LocationsFetcher : ILocationsFetcher
     {
         private static readonly string AccessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
         private static readonly string SecretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
@@ -35,16 +35,16 @@ namespace GasMon
             using StreamReader reader = new StreamReader(responseStream);
             string
                 title = response.Metadata[
-                    "x-amz-meta-title"]; // Assume you have "title" as medata added to the object.
+                    "x-amz-meta-title"]; 
             string contentType = response.Headers["Content-Type"];
             Console.WriteLine("Object metadata, Title: {0}", title);
             Console.WriteLine("Content type: {0}", contentType);
 
-            var responseBody = reader.ReadToEnd(); // Now you process the response body.
+            var responseBody = reader.ReadToEnd();
             return responseBody;
         }
 
-        public List<Location> LocationFetcher()
+        public List<Location> LocationListMaker()
         {
             _client = new AmazonS3Client(AccessKey, SecretKey, BucketRegion);
             var returnedData = ReadObjectDataAsync(_client).Result;

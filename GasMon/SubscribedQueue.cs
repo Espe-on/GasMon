@@ -9,7 +9,7 @@ namespace GasMon
 
         public string QueueUrl { get; }
         private readonly string _subscriptionArn;
-        
+
         public SubscribedQueue(SqsService sqsService, SnsService snsService)
         {
             _sqsService = sqsService;
@@ -18,7 +18,7 @@ namespace GasMon
             QueueUrl = sqsService.CreateQueueAsync().Result;
             _subscriptionArn = _snsService.SubscribeQueueAsync(QueueUrl).Result;
         }
-        
+
         public void Dispose()
         {
             _snsService.UnsubscribeQueueAsync(_subscriptionArn).Wait();

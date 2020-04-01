@@ -7,7 +7,7 @@ namespace GasMon
 {
     public class SnsService
     {
-        private static readonly string TopicArn = Environment.GetEnvironmentVariable("AWS_SNS_TOPIC_ARN");
+        private static readonly string TopicArn = "arn:aws:sns:eu-west-2:099421490492:GasMonitoring-snsTopicSensorDataPart1-1YOM46HA51FB";
         private readonly IAmazonSimpleNotificationService _snsClient;
         private readonly IAmazonSQS _sqsClient;
 

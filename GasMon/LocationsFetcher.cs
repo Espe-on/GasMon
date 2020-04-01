@@ -33,13 +33,6 @@ namespace GasMon
             using GetObjectResponse response = await client.GetObjectAsync(request);
             await using Stream responseStream = response.ResponseStream;
             using StreamReader reader = new StreamReader(responseStream);
-            string
-                title = response.Metadata[
-                    "x-amz-meta-title"]; 
-            string contentType = response.Headers["Content-Type"];
-            Console.WriteLine("Object metadata, Title: {0}", title);
-            Console.WriteLine("Content type: {0}", contentType);
-
             var responseBody = reader.ReadToEnd();
             return responseBody;
         }

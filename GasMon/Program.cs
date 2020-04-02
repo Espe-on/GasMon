@@ -18,7 +18,8 @@ namespace GasMon
             var snsClient = new AmazonSimpleNotificationServiceClient(RegionEndpoint.EUWest2);
             var sqsService = new SqsService(sqsClient);
             var snsService = new SnsService(snsClient, sqsClient);
-            var messageManager = new MessageManager(sqsService, new MessageParser());
+            var locations = locationFetcher.LocationListMaker();
+            var messageManager = new MessageManager(sqsService, new MessageParser(), new LocationChecker(locations));
             
             
             var locationList = locationFetcher.LocationListMaker();

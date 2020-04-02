@@ -7,11 +7,13 @@ namespace GasMon
     {
         private readonly SqsService _sqsService;
         private readonly MessageParser _messageParser;
+        private readonly LocationChecker _locationChecker;
 
-        public MessageManager(SqsService sqsService, MessageParser messageParser)
+        public MessageManager(SqsService sqsService, MessageParser messageParser, LocationChecker locationChecker)
         {
             _sqsService = sqsService;
             _messageParser = messageParser;
+            _locationChecker = locationChecker;
         }
 
         public void ProcessMessages(string queueUrl)
@@ -19,11 +21,18 @@ namespace GasMon
             var messages = _sqsService
                 .FetchMessagesAsync(queueUrl).Result
                 .Select(_messageParser.ParseMessage);
+
+            var filteredMessages = messages.Where(_locationChecker.ValidLocationCheck);
+
+            foreach (var message in filteredMessages)
+            {
+                Console.WriteLine(message.Reading);
+            }
             
             foreach (var message in messages)
             {
-                Console.WriteLine(message.Reading);
                 _sqsService.DeleteMessageAsync(queueUrl, message.ReceiptHandle).Wait();
+                Console.WriteLine("Message deleted");
             }
         }
     }

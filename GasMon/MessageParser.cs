@@ -6,11 +6,15 @@ namespace GasMon
 {
     public class MessageParser
     {
-        public Reading ParseMessage(Message message)
+        public ReadingMessage ParseMessage(Message message)
         {
-            //come in later and write a test
             var snsMessage = SnsMessage.ParseMessage(message.Body);
-            return JsonConvert.DeserializeObject<Reading>(snsMessage.MessageText);
+            var reading = JsonConvert.DeserializeObject<Reading>(snsMessage.MessageText);
+            return new ReadingMessage
+            {
+                ReceiptHandle = message.ReceiptHandle,
+                Reading = reading
+            };
         }
     }
 }

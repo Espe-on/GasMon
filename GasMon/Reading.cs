@@ -12,4 +12,9 @@
             return $"EventID: {EventId}, LocationID: {LocationId}, Value:{Value}, Timestamp: {Timestamp}";
         }
     }
+    public class ReadingMessage
+    {
+        public string ReceiptHandle { get; set; }
+        public Reading Reading { get; set; }
+    }
 }
